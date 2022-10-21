@@ -6,8 +6,10 @@ This folder contains the code and pretrained model for GaitRef: Gait Recognition
 
  * A suggestion for this is to use conda and create an environment as follows
 
+'''
 conda create -n gaitref python=3.7.13
 conda activate gaitref
+'''
 
  * After you create a python 3.7.13, please use the following command for installing required PyTorch
 
