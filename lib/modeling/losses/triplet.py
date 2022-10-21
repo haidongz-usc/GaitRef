@@ -20,7 +20,6 @@ class TripletLoss(BasicLoss):
         embeddings = embeddings.permute(
             1, 0, 2).contiguous()  # [n, p, c] -> [p, n, c]
         embeddings = embeddings.float()
-        #print(embeddings.shape)
         ref_embed, ref_label = embeddings, labels
         dist = self.ComputeDistance(embeddings, ref_embed)  # [p, n1, n2]
         mean_dist = dist.mean(1).mean(1)

@@ -20,7 +20,6 @@ class RevModel(nn.Module):
         spatial_kernel_size = A.size(0)
         temporal_kernel_size = 9
         kernel_size = (temporal_kernel_size, spatial_kernel_size)
-        #self.data_bn = nn.BatchNorm1d(in_channels * A.size(1))
         kwargs0 = {k: v for k, v in kwargs.items() if k != 'dropout'}
         self.st_gcn_networks = nn.ModuleList((
             st_gcn(8322, 128, kernel_size, 1, **kwargs),
@@ -37,18 +36,14 @@ class RevModel(nn.Module):
             self.edge_importance = [1] * len(self.st_gcn_networks)
 
     def forward(self, x):
-        #print(x.shape)
         N, C, T, V = x.size()
         x = x.permute(0, 3, 1, 2).contiguous()
         x = x.view(N, V * C, T)
-        #x = self.data_bn(x)
         x = x.view(N, V, C, T)
         x = x.permute(0, 2, 3, 1).contiguous()
         x = x.view(N, C, T, V)
         for gcn, importance in zip(self.st_gcn_networks, self.edge_importance):
             x, _ = gcn(x, self.A * importance)
-        #x = F.avg_pool2d(x, x.size()[2:])
-        #x = x.view(x.size(0), -1)
         return x
 
 class Model(nn.Module):
@@ -118,12 +113,6 @@ class Model(nn.Module):
         # forwad
         for gcn, importance in zip(self.st_gcn_networks, self.edge_importance):
             x, _ = gcn(x, self.A * importance)
-
-        # global pooling
-        #x = F.avg_pool2d(x, x.size()[2:])
-
-        # prediction
-        #x = x.view(x.size(0), -1)
 
         return x
 
@@ -306,10 +295,8 @@ class GaitGLRef(BaseModel):
     def forward(self, inputs):
         ipts, pose, labs, _, _, seqL = inputs
         seqL = None if not self.training else seqL
-        tttopose = torch.Tensor(pose.squeeze(1).detach().cpu().numpy()).cuda()#.clone()
 
         sils = ipts[0].unsqueeze(1)
-        #print(sils.shape)
         
         del ipts
         n, _, s, h, w = sils.size()
@@ -334,17 +321,11 @@ class GaitGLRef(BaseModel):
         pembs = self.network(pose.squeeze(1)) # n, c, t, v
         _, _, t, v = pembs.shape
         gembs = outs.view([n, -1])
-        #print([pembs.shape, gembs[...,None,None].repeat(1,1,t, v).shape, pose.squeeze(1).shape])
         repose = self.denetwork(torch.cat([pembs, gembs[...,None,None].repeat(1,1,t, v), pose.squeeze(1)], axis=1))
-        new_pose = pose.squeeze(1) + repose
         refpembs = self.network(pose.squeeze(1) + repose).mean([-1, -2])[None, ...]
 
-        #print(outs.shape)
         outs = torch.cat([outs, pembs.mean([-1,-2])[None, ...], refpembs], axis=0)
 
-        #print(outs.shape, pembs.shape)
-        #print(outs.shape)
-        #outs = torch.cat([outs, pembs], axis=0)
         gait = self.Head0(outs)  # [p, n, c]
         gait = gait.permute(1, 2, 0).contiguous()  # [n, c, p]
         bnft = self.Bn(gait)  # [n, c, p]
@@ -365,8 +346,6 @@ class GaitGLRef(BaseModel):
             },
             'inference_feat': {
                 'embeddings': bnft,
-                'tttold_pose': tttopose,#.detach().cpu().numpy(),
-                'new_pose': new_pose#.detach().cpu().numpy()
             }
         }
         return retval

@@ -265,7 +265,6 @@ class GaitGLMix(BaseModel):
         seqL = None if not self.training else seqL
 
         sils = ipts[0].unsqueeze(1)
-        #print(sils.shape)
         
         del ipts
         n, _, s, h, w = sils.size()

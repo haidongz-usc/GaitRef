@@ -28,7 +28,6 @@ class BaseSilCuttingTransform():
             cutting = self.cutting
         else:
             cutting = int(self.img_w // 64) * 10
-        #print(x.shape)
         x = x[..., cutting:-cutting]
         return x / self.disvor
 

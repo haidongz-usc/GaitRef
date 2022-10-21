@@ -268,16 +268,13 @@ class BaseModel(MetaModel, nn.Module):
 
     def inputs_pretreament(self, inputs):
         seqs_batch, gait_batch, labs_batch, typs_batch, vies_batch, seqL_batch = inputs
-        #print(np.array(seqs_batch).shape)
         trf_cfgs = self.engine_cfg['transform']
         seq_trfs = get_transform(trf_cfgs)
         requires_grad = bool(self.training)
         seqs_gait = [np2var(np.asarray([trf(fra) for fra in seq]), requires_grad=requires_grad).float()
                 for trf, seq in zip(seq_trfs, gait_batch)]
-        #print(seqs_gait)
         
         seqs = np2var(np.asarray(seqs_batch), requires_grad=requires_grad).float()
-        #print(seqs.shape)
 
         typs = typs_batch
         vies = vies_batch
@@ -288,12 +285,6 @@ class BaseModel(MetaModel, nn.Module):
             seqL_batch = np2var(seqL_batch).int()
         seqL = seqL_batch
 
-        #if seqL is not None:
-        #    seqL_sum = int(seqL.sum().data.cpu().numpy())
-        #    ipts = [_[:, :seqL_sum] for _ in seqs]
-        #else:
-        #ipts = [seqs_gait, seqs]
-        #del seqs
         return seqs_gait, seqs, labs, typs, vies, seqL
 
     def train_step(self, loss_sum) -> bool:

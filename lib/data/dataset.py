@@ -42,16 +42,9 @@ class DataSet(tordata.Dataset):
                 f.close()
                 _p = np.load(pth[:-3] + 'npy')
             else:
-                #print(pth)
-                #_ = np.load(pth)
                 raise ValueError('- Loader - just support .pkl !!!')
-            # if len(_) >= 200:
-            #     _ = _[:200]
             gait_list.append(_g)  # pose, gait
             pose_list.append(_p)
-        #for data in data_list:
-        #    if len(data) != len(data_list[0]):
-        #        raise AssertionError
 
         return gait_list, pose_list
 
@@ -107,10 +100,9 @@ class DataSet(tordata.Dataset):
             for lab in label_set:
                 for typ in sorted(os.listdir(osp.join(dataset_root, lab))):
                     vlist = sorted(os.listdir(osp.join(dataset_root, lab, typ)))
-                    for vie in vlist: #sorted(os.listdir(osp.join(dataset_root, lab, typ))):
+                    for vie in vlist: 
                         seq_info = [lab, typ, vie]
                         seq_path = osp.join(dataset_root, *seq_info)
-                        #seq_dirs = sorted(os.listdir(seq_path))
                         seq_dirs = sorted([ffid for ffid in os.listdir(seq_path) if ffid.endswith('.pkl')])
                         if seq_dirs != []:
                             seq_dirs = [osp.join(seq_path, dir)

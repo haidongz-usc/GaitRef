@@ -34,7 +34,6 @@ class CollateFn(object):
 
     def __call__(self, batch):
         batch_size = len(batch)
-        #print(batch[0])
         feature_num = len(batch[0][0])
         seqs_batch, labs_batch, typs_batch, vies_batch = [], [], [], []
         pose_batch = []
@@ -44,10 +43,8 @@ class CollateFn(object):
             typs_batch.append(bt[1][1])
             vies_batch.append(bt[1][2])
             seqs_batch.append(bt[2])
-        #print(seqs_batch)
         global count
         count = 0
-        #print(np.array(pose_batch).shape)
         def sample_frames(seqs):
             global count
             sampled_fras = [[] for i in range(feature_num)]
@@ -96,7 +93,6 @@ class CollateFn(object):
         # p: batch_size_per_gpu
         # g: gpus_num
         fras_batch = [sample_frames(seqs) for seqs in seqs_batch]  # [b, f]
-        #print(len(fras_batch), len(fras_batch[0]), np.array(fras_batch[0][0]).shape)
         batch = [pose_batch, fras_batch, labs_batch, typs_batch, vies_batch, None]
         if self.sampler == "fixed":
             fras_batch = [[np.asarray(fras_batch[i][j]) for i in range(batch_size)]
