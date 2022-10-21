@@ -20,7 +20,7 @@ pip install -r requirements.txt
 
 ### Data Preparation and Pretrained Models
 
- * Since silhouettes and skeletons for CASIA-B are publicly available online ([Silhouettes Link](http://www.cbsr.ia.ac.cn/GaitDatasetB-silh.zip), [Skeleton Link](https://github.com/tteepe/GaitGraph/releases/download/v0.1/data.zip)), for simplicity during reviewing stage, we directly provide the processed data we used along with the pretrained models in the following anonymous [drive](https://mega.nz/folder/FeUnWbqa#3Pew51i7BWVftLkZ5pbaJQ). Please download both of the files and place them in the current directory. Unzip them with the commands below
+ * Since silhouettes and skeletons for CASIA-B are publicly available online ([[Silhouettes Link](http://www.cbsr.ia.ac.cn/GaitDatasetB-silh.zip)], [[Skeleton Link](https://github.com/tteepe/GaitGraph/releases/download/v0.1/data.zip)]), for simplicity during reviewing stage, we directly provide the processed data we used along with the pretrained models in the following anonymous [[drive](https://mega.nz/folder/FeUnWbqa#3Pew51i7BWVftLkZ5pbaJQ)]. Please download both of the files and place them in the current directory. Unzip them with the commands below
 
 ```
 tar -xzf CASIA-B-mix.tar.gz
