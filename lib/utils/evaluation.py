@@ -77,13 +77,6 @@ def identification(data, dataset, metric='euc'):
     view_list = list(set(view))
     view_list.sort()
     view_num = len(view_list)
-    # sample_num = len(feature)
-    #tttold_pose = data['tttold_pose']#.detach().cpu().numpy()
-    #new_pose = data['new_pose']#.detach().cpu().numpy()
-
-    #np.save('old_pose', tttold_pose)
-    #np.save('new_pose', new_pose)
-    #print(old_pose.shape, new_pose.shape)
 
     probe_seq_dict = {'CASIA-B': [['nm-05', 'nm-06'], ['bg-01', 'bg-02'], ['cl-01', 'cl-02']],
                       'OUMVLP': [['00']]}
