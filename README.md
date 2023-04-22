@@ -1,3 +1,5 @@
+## Code for GaitRef: Gait Recognition with Refined Sequential Skeletons
+
 This folder contains the code and pretrained model for GaitRef: Gait Recognition with Refined Sequential Skeletons ([[Paper](https://arxiv.org/abs/2304.07916)]). We provide the python script with the processed data during submission, which we will replace with data-preprocessing python files in our final version. 
 
 ### Environment Setup
